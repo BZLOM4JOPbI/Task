@@ -11,9 +11,9 @@
                     <a href="">Контакты</a>
                 </div>
                 <div class="header-menu">
-                    <a href=""><img src="/img/Icons.svg" alt=""></a>
-                    <a href=""><img src="/img/Icons-1.svg" alt=""></a>
-                    <a href=""><img src="/img/Icons-2.svg" alt=""></a>
+                    <a href=""><img src="/img/icons/search.svg" alt=""></a>
+                    <a href=""><img src="/img/icons/account.svg" alt=""></a>
+                    <a href=""><img src="/img/icons/cart.svg" alt=""></a>
                 </div>
             </div>
         </div>

@@ -8,8 +8,8 @@
     box-sizing: border-box;
     color: var(--text-common);
     font-family: 'Raleway', sans-serif;
-    font-size: 400;
-    font-family: 16px;
+    font-weight: 400;
+    font-size: 16px;
 }
 *::after, *::before {
     position: absolute;
@@ -24,6 +24,10 @@ body, html, .wrap {
     min-height: 100vh;
     width: 100%;
     background-color: var(--bg-common);
+}
+.wrap {
+    display: flex;
+    flex-direction: column;
 }
 :root {
     --text-common:#150001;

@@ -15,7 +15,8 @@ useHead({
     </NuxtLayout>
 </template>
 <style>
-    h2 {
-        color: rgb(55, 128, 192);
+    .flex-col {
+        display: flex;
+        flex-direction: column;
     }
 </style>
