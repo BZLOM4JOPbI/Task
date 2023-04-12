@@ -10,15 +10,19 @@ export default defineNuxtConfig({
                   href: 'https://fonts.googleapis.com'
                 },
                 {
-                  rel: 'stylesheet',
-                  href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap',
+                  rel: 'preconnect',
+                  href: 'https://fonts.gstatic.com',
                   crossorigin: ''
+                },
+                {
+                  rel: 'stylesheet',
+                  href: 'https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&family=Raleway:wght@400;500;600&display=swap'
                 },
                 {
                     rel: 'stylesheet',
                     href: '/styles/style.css',
                     type: 'text/css'
-                }
+                },
               ],
         }
     }

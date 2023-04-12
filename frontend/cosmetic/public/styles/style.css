@@ -7,6 +7,9 @@
     text-decoration: none;
     box-sizing: border-box;
     color: var(--text-common);
+    font-family: 'Raleway', sans-serif;
+    font-size: 400;
+    font-family: 16px;
 }
 *::after, *::before {
     position: absolute;
@@ -29,4 +32,13 @@ body, html, .wrap {
     --text-accent: #FFFFFF;
     --text-opacity: #AB9D91;
     --color-focus: #F2E2D0;
+}
+header, main, body {
+    width: 100%;
+}
+a {
+    display: inline-block;
+}
+img, div {
+    display: block;
 }
