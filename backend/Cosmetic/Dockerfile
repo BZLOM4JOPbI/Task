@@ -13,4 +13,4 @@ ADD . /cosmetic/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-CMD gunicorn Cosmetic.wsgi:application -b 127.0.0.1:8000
+CMD gunicorn Cosmetic.wsgi:application -b 0.0.0.0:8000
