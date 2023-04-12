@@ -39,13 +39,15 @@
                     </div>
                 </div>
                 <div class="footer-down">
-                    <h6>© 2022 SV Parfums & cosmetic</h6>
+                    <h6>© {{ currentYear }} SV Parfums & cosmetic</h6>
                 </div>
             </div>
         </div>
     </footer>
 </template>
-
+<script setup>
+    const currentYear = new Date().getFullYear();
+</script>
 <style scoped>
     * {
         color: var(--text-accent);
