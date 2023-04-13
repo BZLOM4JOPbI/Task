@@ -5,30 +5,82 @@
                 <div class="main-aside">
                     <div class="main-category"><a href="">Главная</a><a href="">Каталог</a><a href="">Кремы</a></div>
                     <div class="main-filters">
-                        <div class="filter catalogue">
-                            <img src="/img/icons/grid.svg" alt=""><span>Каталог</span><img class='arrow' src="/img/icons/arrow.svg" alt="">
-                        </div>
-                        <div class="filter">
-                            <span>Цена</span><img class='arrow' src="/img/icons/arrow.svg" alt="">
-                        </div>
-                        <div class="filter">
-                            <span>Бренды</span><img class='arrow' src="/img/icons/arrow.svg" alt="">
-                        </div>
-                        <div class="filter">
-                            <span>Для кого</span><img class='arrow' src="/img/icons/arrow.svg" alt="">
-                        </div>
-                        <div class="filter">
-                            <span>Тип кожи</span><img class='arrow' src="/img/icons/arrow.svg" alt="">
-                        </div>
-                        <div class="filter">
-                            <span>Средство для рук</span><img class='arrow' src="/img/icons/arrow.svg" alt="">
-                        </div>
-                        <div class="filter">
-                            <span>Средство для рук</span><img class='arrow' src="/img/icons/arrow.svg" alt="">
-                        </div>
-                        <div class="filter">
-                            <span>Средство для тела</span><img class='arrow' src="/img/icons/arrow.svg" alt="">
-                        </div>
+                        <AppFilterCatalogue></AppFilterCatalogue>
+                        <AppFilterField>
+                            <template v-slot:filter-name>Цена</template>
+                            <template v-slot:options>
+                                
+                            </template>
+                        </AppFilterField>
+                        <AppFilterField>
+                            <template v-slot:filter-name>Бренды</template>
+                            <template v-slot:options>
+                                <form>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Levrana
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Chocolatte
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">ECOLAB
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Cafe Mimi
+                                    </label>
+                                </form>
+                            </template>
+                        </AppFilterField>
+                        <AppFilterField>
+                            <template v-slot:filter-name>Для кого</template>
+                            <template v-slot:options>
+                                <form>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Для всех
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Для женщин
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Для мужчин
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Для детей
+                                    </label>
+                                </form>
+                            </template>
+                        </AppFilterField>
+                        <AppFilterField>
+                            <template v-slot:filter-name>Тип кожи</template>
+                            <template v-slot:options>
+                                <form>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Для всех типов
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Для сухой
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Для жирной
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Для зрелой
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Для чувствительной
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="option" value="value">Для комбинированной
+                                    </label>
+                                </form>
+                            </template>
+                        </AppFilterField>
+                        <AppFilterField>
+                            <template v-slot:filter-name>Средство для рук</template>
+                        </AppFilterField>
+                        <AppFilterField>
+                            <template v-slot:filter-name>Средство для тела</template>
+                        </AppFilterField>
                     </div>
                 </div>
                 <div class="main-list-cards">
@@ -110,7 +162,12 @@
     </main>
 
 </template>
-
+<script setup>
+    const clickEvent = (e) => {
+        console.log(e);
+        console.log(e.target);
+    }
+</script>
 <style scoped>
     .main {
         padding: 80px 0;
@@ -142,29 +199,6 @@
     }
     .main-category {
         margin: 22px 0 78px;
-    }
-    .filter {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        cursor: pointer;
-        padding-right: 10px;
-    }
-    .arrow {
-        /* justify-self: flex-end; */
-        margin-left: auto;
-    }
-    .filter span {
-        font-size: 18px;
-        font-weight: 600;
-    }
-    .catalogue {
-        background-color: var(--color-focus);
-        padding: 20px 10px;
-    }
-    .catalogue img:first-child {
-        margin-right: 10px;
     }
     .main-header {
         display: flex;
@@ -222,5 +256,27 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(282px, 282px));
         grid-gap: 30px;
+        justify-content: space-around;
+    }
+    label {
+        margin-bottom: 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+    label input[type='checkbox'] {
+        margin-right: 10px;
+        position: relative;
+        /* -moz-appearance:none;
+        -webkit-appearance:none;
+        -o-appearance:none; */
+        width: 20px;
+        height: 20px;
+        accent-color: var(--color-accent);
+        /* border: 1px solid var(--color-accent);  */
+    } 
+    form label:last-child {
+        margin-bottom: 20px;
     }
 </style>
