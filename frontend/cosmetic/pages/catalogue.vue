@@ -9,7 +9,7 @@
                         <AppFilterField>
                             <template v-slot:filter-name>Цена</template>
                             <template v-slot:options>
-                                
+                                <AppPriceRange></AppPriceRange>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
@@ -86,10 +86,7 @@
                 <div class="main-list-cards">
                     <div class="main-header">
                         <h3 class="main-product">Кремы</h3>
-                        <div class="filter">
-                            <span>Упорядочить</span>
-                            <img class='arrow' src="/img/icons/arrow.svg" alt="">
-                        </div>
+                        <AppOrderCatalogue></AppOrderCatalogue>
                     </div>
                     <div class="card-grid">
                         <div class="card">

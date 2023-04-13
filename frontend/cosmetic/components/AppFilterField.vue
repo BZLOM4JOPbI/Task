@@ -1,6 +1,6 @@
 <template>
     <div class="filter" @click="clickEvent">
-        <span><slot name="filter-name" /></span><img class='arrow' src="/img/icons/arrow.svg" alt="">
+        <span><slot name="filter-name" /></span><img class='arrow' v-bind:class='{ top: status, bottom: !status }' src="/img/icons/arrow.svg" alt="">
     </div>
     <div v-if='status' v-bind:class="{ isVisible: status}">
         <slot name="options" />
@@ -36,7 +36,13 @@
         font-weight: 600;
     }
     .isVisible {
-        animation: increaseOpacity 1s;
+        animation: increaseOpacity 0.5s;
+    }
+    .top {
+        animation: arrowRotateTop 0.5s forwards;
+    }
+    .bottom {
+        animation: arrowRotateBottom 0.5s;
     }
     @keyframes increaseOpacity {
         from {
@@ -44,6 +50,30 @@
         }
         to {
             opacity: 1;
+        }
+    }
+    @keyframes arrowRotateTop {
+        from {
+            -moz-transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        to {
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+    }
+    @keyframes arrowRotateBottom {
+        from {
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+        to {
+            -moz-transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
         }
     }
 </style>
