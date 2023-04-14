@@ -38,16 +38,16 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input type="checkbox" name="option" value="all" v-model="who">Для всех
+                                        <input type="checkbox" name="option" value="all" v-model="filtersObj.who">Для всех
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="woman" v-model="who">Для женщин
+                                        <input type="checkbox" name="option" value="woman" v-model="filtersObj.who">Для женщин
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="man" v-model="who">Для мужчин
+                                        <input type="checkbox" name="option" value="man" v-model="filtersObj.who">Для мужчин
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="child" v-model="who">Для детей
+                                        <input type="checkbox" name="option" value="child" v-model="filtersObj.who">Для детей
                                     </label>
                                 </form>
                                 <div>{{ who }}</div>
@@ -170,15 +170,20 @@
     const brands = ref([]);
     const who = ref([]);
     const filtersObj = ref({
-        dermTypeFilter: dermTypeFilter.value,
-        brands: brands.value,
-        who: who.value,
+        who: who,
     });
-    watch (who, async (cur, old) => {
+    watch (filtersObj, async (cur, old) => {
         fetchApi().then(data => console.log(data));
     })
+    // watch (dermTypeFilter, async (cur, old) => {
+    //     fetchApi().then(data => console.log(data));
+    // })
+    // watch (brands, async (cur, old) => {
+    //     fetchApi().then(data => console.log(data));
+    // })
     const fetchApi = async () => {
-        return useFetch(`http://127.0.0.1:8000/api/products/?d=${dermTypeFilter.value}&b=${brands.value}&w=${who.value}`, {
+        // ?d=${dermTypeFilter.value}&b=${brands.value}&w=${who.value}
+        return useFetch(`http://127.0.0.1:8000/api/products/`, {
             // params: { who: who.value },
             // pick: ['title', 'price'],
             // watch: [dermTypeFilter.value,],
@@ -187,6 +192,7 @@
             },
         })
     }
+    
     // const { data: filterListener } = await useFetch(`https://jsonplaceholder.typicode.com/posts/1?d=${dermTypeFilter.value}&b=${brands.value}&w=${who.value}`, {
     //     // watch: [dermTypeFilter.value,],
     //     onResponse ({ request, options, response}) {
