@@ -144,3 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #         'rest_framework.permissions.DjangoModelPermissions',
 #     )
 # }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
