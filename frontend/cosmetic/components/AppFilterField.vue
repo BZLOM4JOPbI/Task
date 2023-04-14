@@ -15,7 +15,7 @@
         status.value = !status.value
 
     };
-    watch (status, (cur, old) => console.log(`Значение изменилось с ${old} на ${cur}`))
+    // watch (status, (cur, old) => console.log(`Значение изменилось с ${old} на ${cur}`))
 </script>
 
 <style scoped>

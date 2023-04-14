@@ -5,6 +5,7 @@
                 <div class="main-aside">
                     <div class="main-category"><a href="">Главная</a><a href="">Каталог</a><a href="">Кремы</a></div>
                     <div class="main-filters">
+                        <!-- <div> {{ filterListener }}</div> -->
                         <AppFilterCatalogue></AppFilterCatalogue>
                         <AppFilterField>
                             <template v-slot:filter-name>Цена</template>
@@ -26,7 +27,7 @@
                                         <input type="checkbox" name="option" value="ECOLAB" v-model="brands">ECOLAB
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="Cafe Mimi" v-model="brands">Cafe Mimi
+                                        <input type="checkbox" name="option" value="Cafe_Mimi" v-model="brands">Cafe Mimi
                                     </label>
                                 </form>
                                 <div>{{ brands }}</div>
@@ -163,17 +164,35 @@
 
 </template>
 <script setup>
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
 
     const dermTypeFilter = ref([]);
     const brands = ref([]);
     const who = ref([]);
-
-
-    const clickEvent = (e) => {
-        console.log(e);
-        console.log(e.target);
+    const filtersObj = ref({
+        dermTypeFilter: dermTypeFilter.value,
+        brands: brands.value,
+        who: who.value,
+    });
+    watch (who, async (cur, old) => {
+        fetchApi().then(data => console.log(data));
+    })
+    const fetchApi = async () => {
+        return useFetch(`http://127.0.0.1:8000/api/products/?d=${dermTypeFilter.value}&b=${brands.value}&w=${who.value}`, {
+            // params: { who: who.value },
+            // pick: ['title', 'price'],
+            // watch: [dermTypeFilter.value,],
+            onResponse ({ request, options, response}) {
+                return response._data
+            },
+        })
     }
+    // const { data: filterListener } = await useFetch(`https://jsonplaceholder.typicode.com/posts/1?d=${dermTypeFilter.value}&b=${brands.value}&w=${who.value}`, {
+    //     // watch: [dermTypeFilter.value,],
+    //     onResponse ({ request, options, response}) {
+    //             return response._data
+    //     }
+    // })
 </script>
 <style scoped>
     .main {
