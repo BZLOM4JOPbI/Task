@@ -11,8 +11,9 @@ class Products(models.Model):
 
     class Meta:
 
+        verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
 
 
     def __str__(self):
-        return f'(ID: {self.id})    {self.title_of_product}'
+        return f'(ID: {self.id}) {self.title_of_product}'
