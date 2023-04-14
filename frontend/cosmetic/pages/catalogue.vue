@@ -5,6 +5,7 @@
                 <div class="main-aside">
                     <div class="main-category"><a href="">Главная</a><a href="">Каталог</a><a href="">Кремы</a></div>
                     <div class="main-filters">
+                        <!-- <div> {{ filterListener }}</div> -->
                         <AppFilterCatalogue></AppFilterCatalogue>
                         <AppFilterField>
                             <template v-slot:filter-name>Цена</template>
@@ -26,7 +27,7 @@
                                         <input type="checkbox" name="option" value="ECOLAB" v-model="brands">ECOLAB
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="Cafe Mimi" v-model="brands">Cafe Mimi
+                                        <input type="checkbox" name="option" value="Cafe_Mimi" v-model="brands">Cafe Mimi
                                     </label>
                                 </form>
                                 <div>{{ brands }}</div>
@@ -37,16 +38,16 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input type="checkbox" name="option" value="all" v-model="who">Для всех
+                                        <input type="checkbox" name="option" value="all" v-model="filtersObj.who">Для всех
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="woman" v-model="who">Для женщин
+                                        <input type="checkbox" name="option" value="woman" v-model="filtersObj.who">Для женщин
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="man" v-model="who">Для мужчин
+                                        <input type="checkbox" name="option" value="man" v-model="filtersObj.who">Для мужчин
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="child" v-model="who">Для детей
+                                        <input type="checkbox" name="option" value="child" v-model="filtersObj.who">Для детей
                                     </label>
                                 </form>
                                 <div>{{ who }}</div>
@@ -163,17 +164,41 @@
 
 </template>
 <script setup>
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
 
     const dermTypeFilter = ref([]);
     const brands = ref([]);
     const who = ref([]);
-
-
-    const clickEvent = (e) => {
-        console.log(e);
-        console.log(e.target);
+    const filtersObj = ref({
+        who: who,
+    });
+    watch (filtersObj, async (cur, old) => {
+        fetchApi().then(data => console.log(data));
+    })
+    // watch (dermTypeFilter, async (cur, old) => {
+    //     fetchApi().then(data => console.log(data));
+    // })
+    // watch (brands, async (cur, old) => {
+    //     fetchApi().then(data => console.log(data));
+    // })
+    const fetchApi = async () => {
+        // ?d=${dermTypeFilter.value}&b=${brands.value}&w=${who.value}
+        return useFetch(`http://127.0.0.1:8000/api/products/`, {
+            // params: { who: who.value },
+            // pick: ['title', 'price'],
+            // watch: [dermTypeFilter.value,],
+            onResponse ({ request, options, response}) {
+                return response._data
+            },
+        })
     }
+    
+    // const { data: filterListener } = await useFetch(`https://jsonplaceholder.typicode.com/posts/1?d=${dermTypeFilter.value}&b=${brands.value}&w=${who.value}`, {
+    //     // watch: [dermTypeFilter.value,],
+    //     onResponse ({ request, options, response}) {
+    //             return response._data
+    //     }
+    // })
 </script>
 <style scoped>
     .main {
