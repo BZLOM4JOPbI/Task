@@ -12,5 +12,5 @@ from catalog.api import *
 
 
 urlpatterns = [
-    path('api/products/', ProductsAPiView.as_view())
+    path('api/products/', CreamsAPiView.as_view())
 ]

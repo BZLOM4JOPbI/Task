@@ -1,13 +1,20 @@
 from django.db import models
 
 
-class Products(models.Model):
+class Creams(models.Model):
     
-    # brand_name = models.CharField('Бренд', max_length=50)
+    brand = models.CharField('Бренд', max_length=50)
+
     title_of_product = models.CharField('Название товара', max_length=50)
-    type_of_product = models.CharField('Тип продукта', max_length=50)
-    # description = models.TextField('Описание')
+
+    type_of_derm = models.CharField('Тип кожи', max_length=50)
+
+    description = models.TextField('Описание', null=True)
+
     price = models.PositiveIntegerField('Цена')
+    
+    cream_for = models.CharField('Крем для', max_length=20)
+    
 
     class Meta:
 

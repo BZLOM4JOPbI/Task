@@ -5,34 +5,33 @@ from django.http import HttpResponse
 
 from catalog.serializers import *
 from catalog.models import *
+from catalog.utils import *
 
 
-# class ProductsViewSet(viewsets.ModelViewSet):
-
-#     queryset = Products.objects.all()
-#     permissions_classes = [
-#         permissions.AllowAny
-#     ]
-#     serializer_class = ProductsSerializer
-
-
-class ProductsAPiView(APIView):
+class CreamsAPiView(APIView):
 
     def get(self, request):
         
-        filters = request.query_params
-        print(filters)
-        products = Products.objects.all()
-        serializer = ProductsSerializer(products, many=True)
+        filter_type_of_derm, filter_brand, filter_cream_for = get_filters_from_request(request)
+        print(filter_brand, filter_type_of_derm, filter_cream_for)
+
+        creams = Creams.objects.filter(
+            brand__in=filter_brand,
+            type_of_derm__in=filter_type_of_derm,
+            cream_for__in=filter_cream_for,
+        )
+        print(creams)
+        serializer = CreamsSerializer(creams, many=True)
+
 
         return Response({'data': serializer.data})
 
     def post(self, request):
 
         new_product = request.data
-        print(new_product)
-        serializer = ProductsSerializer(data=new_product)
+        serializer = CreamsSerializer(data=new_product)
 
         if serializer.is_valid(raise_exception=True):
             product_saved = serializer.save()
+
         return Response({'Success': f'Товар {product_saved.title_of_product} успешно добавлен'})
