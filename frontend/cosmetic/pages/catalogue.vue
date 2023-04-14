@@ -17,18 +17,19 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Levrana
+                                        <input type="checkbox" name="option" value="Levrana" v-model="brands">Levrana
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Chocolatte
+                                        <input type="checkbox" name="option" value="Chocolatte" v-model="brands">Chocolatte
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">ECOLAB
+                                        <input type="checkbox" name="option" value="ECOLAB" v-model="brands">ECOLAB
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Cafe Mimi
+                                        <input type="checkbox" name="option" value="Cafe Mimi" v-model="brands">Cafe Mimi
                                     </label>
                                 </form>
+                                <div>{{ brands }}</div>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
@@ -36,18 +37,19 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Для всех
+                                        <input type="checkbox" name="option" value="all" v-model="who">Для всех
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Для женщин
+                                        <input type="checkbox" name="option" value="woman" v-model="who">Для женщин
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Для мужчин
+                                        <input type="checkbox" name="option" value="man" v-model="who">Для мужчин
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Для детей
+                                        <input type="checkbox" name="option" value="child" v-model="who">Для детей
                                     </label>
                                 </form>
+                                <div>{{ who }}</div>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
@@ -55,24 +57,25 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Для всех типов
+                                        <input type="checkbox" name="option" value="all" v-model="dermTypeFilter">Для всех типов
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Для сухой
+                                        <input type="checkbox" name="option" value="dry" v-model="dermTypeFilter">Для сухой
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Для жирной
+                                        <input type="checkbox" name="option" value="fat" v-model="dermTypeFilter">Для жирной
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Для зрелой
+                                        <input type="checkbox" name="option" value="old" v-model="dermTypeFilter">Для зрелой
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Для чувствительной
+                                        <input type="checkbox" name="option" value="sens" v-model="dermTypeFilter">Для чувствительной
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="value">Для комбинированной
+                                        <input type="checkbox" name="option" value="comb" v-model="dermTypeFilter">Для комбинированной
                                     </label>
                                 </form>
+                                <div>{{ dermTypeFilter }}</div>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
@@ -160,6 +163,13 @@
 
 </template>
 <script setup>
+    import { ref } from 'vue';
+
+    const dermTypeFilter = ref([]);
+    const brands = ref([]);
+    const who = ref([]);
+
+
     const clickEvent = (e) => {
         console.log(e);
         console.log(e.target);

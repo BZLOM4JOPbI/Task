@@ -1,37 +1,39 @@
 <template>
         <div class="price-range">
-            <p>{{ min }} - {{ max }}</p>
-            <input @change="displayMinValue" type="range" value="350" min="350" max="5000" step="50">
-            <input @change="displayMaxValue" type="range" value="3700" min="350" max="5000" step="50">
+            <p>{{ minValue }} - {{ maxValue }}</p>
+            <input type="range" min="350" max="5000" step="50" v-model="minValue">
+            <input type="range" min="350" max="5000" step="50" v-model="maxValue">
+            <!-- @change="displayMaxValue"  @change="displayMinValue" -->
         </div>
 </template>
 <script setup>
-    import { ref } from 'vue'
+    import { ref, watch } from 'vue'
+    const minValue = ref('');
+    const maxValue = ref('')
 
-    let min = ref(100);
-    let max = ref(250);
-
-    const validatePrice = (low, high) => {
-        if (low > high) {
-            min.value = high;
-            max.value = low;
-            return
-        }
-        min.value = low;
-        max.value = high;
-    }
-    const displayMinValue = (e) => {
-        let low = parseInt(e.target.value);
-        let high = parseInt(e.target.nextSibling.value);
-        console.log(low, high);
-        validatePrice(low, high);
-    }
-    const displayMaxValue = (e) => {
-        let low = parseInt(e.target.previousSibling.value);
-        let high = parseInt(e.target.value);
-        console.log(low, high);
-        validatePrice(low, high);
-    }
+    // let min = ref(100);
+    // let max = ref(250);
+    // const validatePrice = (low, high) => {
+    //     if (low > high) {
+    //         min.value = high;
+    //         max.value = low;
+    //         return
+    //     }
+    //     min.value = low;
+    //     max.value = high;
+    // }
+    // const displayMinValue = (e) => {
+    //     let low = parseInt(e.target.value);
+    //     let high = parseInt(e.target.nextSibling.value);
+    //     console.log(low, high);
+    //     validatePrice(low, high);
+    // }
+    // const displayMaxValue = (e) => {
+    //     let low = parseInt(e.target.previousSibling.value);
+    //     let high = parseInt(e.target.value);
+    //     console.log(low, high);
+    //     validatePrice(low, high);
+    // }
 </script>
 <style scoped>
     .price-range {

@@ -34,6 +34,10 @@
     .filter span {
         font-size: 18px;
         font-weight: 600;
+        user-select: none;
+        -moz-user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
     }
     .isVisible {
         animation: increaseOpacity 0.5s;
