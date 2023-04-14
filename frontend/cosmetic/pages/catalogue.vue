@@ -38,16 +38,16 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input type="checkbox" name="option" value="all" v-model="who">Для всех
+                                        <input @click="selesctAlla" type="checkbox" name="option">Для всех
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="woman" v-model="who">Для женщин
+                                        <input type="checkbox" v-bind:checked="allA" name="option" value="woman" v-model="who">Для женщин
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="man" v-model="who">Для мужчин
+                                        <input type="checkbox" v-bind:checked="allA" name="option" value="man" v-model="who">Для мужчин
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="child" v-model="who">Для детей
+                                        <input type="checkbox" v-bind:checked="allA" name="option" value="child" v-model="who">Для детей
                                     </label>
                                 </form>
                                 <div>{{ who }}</div>
@@ -58,22 +58,22 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input type="checkbox" name="option" value="all" v-model="dermTypeFilter">Для всех типов
+                                        <input type="checkbox" @click="selesctAllb" name="option">Для всех типов
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="dry" v-model="dermTypeFilter">Для сухой
+                                        <input type="checkbox" v-bind:checked="allB" name="option" value="dry" v-model="dermTypeFilter">Для сухой
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="fat" v-model="dermTypeFilter">Для жирной
+                                        <input type="checkbox" v-bind:checked="allB" name="option" value="fat" v-model="dermTypeFilter">Для жирной
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="old" v-model="dermTypeFilter">Для зрелой
+                                        <input type="checkbox" v-bind:checked="allB" name="option" value="old" v-model="dermTypeFilter">Для зрелой
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="sens" v-model="dermTypeFilter">Для чувствительной
+                                        <input type="checkbox" v-bind:checked="allB" name="option" value="sens" v-model="dermTypeFilter">Для чувствительной
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="comb" v-model="dermTypeFilter">Для комбинированной
+                                        <input type="checkbox" v-bind:checked="allB"  name="option" value="comb" v-model="dermTypeFilter">Для комбинированной
                                     </label>
                                 </form>
                                 <div>{{ dermTypeFilter }}</div>
@@ -85,6 +85,9 @@
                         <AppFilterField>
                             <template v-slot:filter-name>Средство для тела</template>
                         </AppFilterField>
+                        <div>
+                            <AppFilterInput v-for="input in inputs" :label = "input.label" :value = "input.value"></AppFilterInput>
+                        </div>
                     </div>
                 </div>
                 <div class="main-list-cards">
@@ -169,8 +172,21 @@
     const dermTypeFilter = ref([]);
     const brands = ref([]);
     const who = ref([]);
+    const whoFull = [ "child", "man", "woman" ];
+    const brandsFull = [ "Levrana", "Chocolatte", "Cafe_Mimi", "ECOLAB" ];
+    const dermFull = [ "dry", "fat", "old", "sens", "comb" ];
+    const refVar = ref('')
+    const inputs = [ 
+        { label: 'For human', 'v-model': 'someFilter', value: 'man', },
+        { label: 'For woman', 'v-model': 'someFilter', value: 'woman', },
+        { label: 'For little', 'v-model': 'someFilter', value: 'child', }
+    ]
+
+    let allA = ref(false);
+    let allB = ref(false);
 
     watch (who, async (cur, old) => {
+        console.log(who)
         fetchApi().then(data => console.log(data));
     })
     watch (dermTypeFilter, async (cur, old) => {
@@ -180,11 +196,17 @@
         fetchApi().then(data => console.log(data));
     })
     const fetchApi = async () => {
-        return useFetch(`http://127.0.0.1:8000/api/products/?d=${dermTypeFilter.value}&b=${brands.value}&w=${who.value}`, {
+        return useFetch(`http://127.0.0.1:8000/api/products/?d=${dermTypeFilter.value.length ? dermTypeFilter.value : dermFull}&b=${brands.value.length ? brands.value : brandsFull}&w=${who.value.length ? who.value : whoFull}`, {
             onResponse ({ request, options, response}) {
                 return response._data
             },
         })
+    }
+    const selectAlla = () => {
+        allA.value = true;
+    }
+    const selectAllb = () => {
+        allB.value = true;
     }
 </script>
 <style scoped>

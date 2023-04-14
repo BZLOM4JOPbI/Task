@@ -1,21 +1,20 @@
 <template>
-    <div class="filter" @click="clickEvent">
+    <div class="filter" @click="changeOptionsVisible">
         <span><slot name="filter-name" /></span><img class='arrow' v-bind:class='{ top: status, bottom: !status }' src="/img/icons/arrow.svg" alt="">
     </div>
-    <div v-if='status' v-bind:class="{ isVisible: status}">
+    <div v-show='status' v-bind:class="{ isVisible: status}">
         <slot name="options" />
     </div>
 </template>
 
 
 <script setup>
-    import { ref, watch } from 'vue';
+    import { ref } from 'vue';
     let status = ref(false);
-    const clickEvent = () => {
+    const changeOptionsVisible = () => {
         status.value = !status.value
 
     };
-    // watch (status, (cur, old) => console.log(`Значение изменилось с ${old} на ${cur}`))
 </script>
 
 <style scoped>
