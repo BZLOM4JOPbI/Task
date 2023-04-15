@@ -29,7 +29,6 @@
                                         <input type="checkbox" name="option" value="Cafe_Mimi" v-model="filters.brands">Cafe Mimi
                                     </label>
                                 </form>
-                                <div>{{ filters.brands }}</div>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
@@ -37,7 +36,7 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input @click='selectAll' type="checkbox" name="option">Для всех
+                                        <input @click='filters.who.push(...whoFull)' type="checkbox" name="option">Для всех
                                     </label>
                                     <label>
                                         <input type="checkbox" name="option" value="woman" v-model="filters.who">Для женщин
@@ -49,7 +48,6 @@
                                         <input type="checkbox" name="option" value="child" v-model="filters.who">Для детей
                                     </label>
                                 </form>
-                                <div>{{ filters.who }}</div>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
@@ -57,25 +55,24 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input @click='dermAll = !dermAll' type="checkbox" name="option">Для всех типов
+                                        <input @click='filters.derm.push(...dermFull)' type="checkbox" name="option">Для всех типов
                                     </label>
                                     <label>
-                                        <input type="checkbox" :checked="dermAll" name="option" value="dry" v-model="filters.derm">Для сухой
+                                        <input type="checkbox" name="option" value="dry" v-model="filters.derm">Для сухой
                                     </label>
                                     <label>
-                                        <input type="checkbox" :checked="dermAll" name="option" value="fat" v-model="filters.derm">Для жирной
+                                        <input type="checkbox" name="option" value="fat" v-model="filters.derm">Для жирной
                                     </label>
                                     <label>
-                                        <input type="checkbox" :checked="dermAll" name="option" value="old" v-model="filters.derm">Для зрелой
+                                        <input type="checkbox" name="option" value="old" v-model="filters.derm">Для зрелой
                                     </label>
                                     <label>
-                                        <input type="checkbox" :checked="dermAll" name="option" value="sens" v-model="filters.derm">Для чувствительной
+                                        <input type="checkbox" name="option" value="sens" v-model="filters.derm">Для чувствительной
                                     </label>
                                     <label>
-                                        <input type="checkbox" :checked="dermAll" name="option" value="comb" v-model="filters.derm">Для комбинированной
+                                        <input type="checkbox" name="option" value="comb" v-model="filters.derm">Для комбинированной
                                     </label>
                                 </form>
-                                <div>{{ filters.derm }}</div>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
