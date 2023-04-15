@@ -89,4 +89,10 @@
         font-size: 18px;
         margin-bottom: 10px;
     }
+    @media screen and (max-width: 1050px) {
+        .price-range {
+            width: 70%;
+            margin: 22px auto 50px;
+        }
+    }
 </style>
