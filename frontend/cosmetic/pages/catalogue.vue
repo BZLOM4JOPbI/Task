@@ -5,7 +5,6 @@
                 <div class="main-aside">
                     <div class="main-category"><a href="">Главная</a><a href="">Каталог</a><a href="">Кремы</a></div>
                     <div class="main-filters">
-                        <!-- <div> {{ filterListener }}</div> -->
                         <AppFilterCatalogue></AppFilterCatalogue>
                         <AppFilterField>
                             <template v-slot:filter-name>Цена</template>
@@ -18,19 +17,19 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input type="checkbox" name="option" value="Levrana" v-model="brands">Levrana
+                                        <input type="checkbox" name="option" value="Levrana" v-model="filters.brands">Levrana
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="Chocolatte" v-model="brands">Chocolatte
+                                        <input type="checkbox" name="option" value="Chocolatte" v-model="filters.brands">Chocolatte
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="ECOLAB" v-model="brands">ECOLAB
+                                        <input type="checkbox" name="option" value="ECOLAB" v-model="filters.brands">ECOLAB
                                     </label>
                                     <label>
-                                        <input type="checkbox" name="option" value="Cafe_Mimi" v-model="brands">Cafe Mimi
+                                        <input type="checkbox" name="option" value="Cafe_Mimi" v-model="filters.brands">Cafe Mimi
                                     </label>
                                 </form>
-                                <div>{{ brands }}</div>
+                                <div>{{ filters.brands }}</div>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
@@ -38,19 +37,19 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input @click="selesctAlla" type="checkbox" name="option">Для всех
+                                        <input @click='selectAll' type="checkbox" name="option">Для всех
                                     </label>
                                     <label>
-                                        <input type="checkbox" v-bind:checked="allA" name="option" value="woman" v-model="who">Для женщин
+                                        <input type="checkbox" name="option" value="woman" v-model="filters.who">Для женщин
                                     </label>
                                     <label>
-                                        <input type="checkbox" v-bind:checked="allA" name="option" value="man" v-model="who">Для мужчин
+                                        <input type="checkbox" name="option" value="man" v-model="filters.who">Для мужчин
                                     </label>
                                     <label>
-                                        <input type="checkbox" v-bind:checked="allA" name="option" value="child" v-model="who">Для детей
+                                        <input type="checkbox" name="option" value="child" v-model="filters.who">Для детей
                                     </label>
                                 </form>
-                                <div>{{ who }}</div>
+                                <div>{{ filters.who }}</div>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
@@ -58,36 +57,47 @@
                             <template v-slot:options>
                                 <form>
                                     <label>
-                                        <input type="checkbox" @click="selesctAllb" name="option">Для всех типов
+                                        <input @click='dermAll = !dermAll' type="checkbox" name="option">Для всех типов
                                     </label>
                                     <label>
-                                        <input type="checkbox" v-bind:checked="allB" name="option" value="dry" v-model="dermTypeFilter">Для сухой
+                                        <input type="checkbox" :checked="dermAll" name="option" value="dry" v-model="filters.derm">Для сухой
                                     </label>
                                     <label>
-                                        <input type="checkbox" v-bind:checked="allB" name="option" value="fat" v-model="dermTypeFilter">Для жирной
+                                        <input type="checkbox" :checked="dermAll" name="option" value="fat" v-model="filters.derm">Для жирной
                                     </label>
                                     <label>
-                                        <input type="checkbox" v-bind:checked="allB" name="option" value="old" v-model="dermTypeFilter">Для зрелой
+                                        <input type="checkbox" :checked="dermAll" name="option" value="old" v-model="filters.derm">Для зрелой
                                     </label>
                                     <label>
-                                        <input type="checkbox" v-bind:checked="allB" name="option" value="sens" v-model="dermTypeFilter">Для чувствительной
+                                        <input type="checkbox" :checked="dermAll" name="option" value="sens" v-model="filters.derm">Для чувствительной
                                     </label>
                                     <label>
-                                        <input type="checkbox" v-bind:checked="allB"  name="option" value="comb" v-model="dermTypeFilter">Для комбинированной
+                                        <input type="checkbox" :checked="dermAll" name="option" value="comb" v-model="filters.derm">Для комбинированной
                                     </label>
                                 </form>
-                                <div>{{ dermTypeFilter }}</div>
+                                <div>{{ filters.derm }}</div>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
                             <template v-slot:filter-name>Средство для рук</template>
+                            <!-- <template v-slot:options>
+                                <AppFilterOption :model="customInput">
+                                    <AppFilterInput
+                                        v-for="input in arrOfInputs"
+                                        :inputValue="input.value"
+                                        :label="input.label"
+                                        v-model="input.model"
+                                    ></AppFilterInput>
+                                </AppFilterOption>
+                            </template> -->
                         </AppFilterField>
                         <AppFilterField>
                             <template v-slot:filter-name>Средство для тела</template>
                         </AppFilterField>
-                        <div>
-                            <AppFilterInput v-for="input in inputs" :label = "input.label" :value = "input.value"></AppFilterInput>
-                        </div>
+                        <!-- <AppCustomInput
+                            v-model="customInput"
+                            @update:modelCheck =
+                        ></AppCustomInput> -->
                     </div>
                 </div>
                 <div class="main-list-cards">
@@ -167,47 +177,48 @@
 
 </template>
 <script setup>
-    import { ref, watch } from 'vue';
+    import { ref, watch, reactive, computed } from 'vue'
 
-    const dermTypeFilter = ref([]);
-    const brands = ref([]);
-    const who = ref([]);
+    const customInput = ref([]);
+    watch (customInput, (cur, old) => {
+        console.log(customInput);
+    })
+    const filters = reactive({ derm: [], brands: [], who: [], });
     const whoFull = [ "child", "man", "woman" ];
     const brandsFull = [ "Levrana", "Chocolatte", "Cafe_Mimi", "ECOLAB" ];
     const dermFull = [ "dry", "fat", "old", "sens", "comb" ];
-    const refVar = ref('')
-    const inputs = [ 
-        { label: 'For human', 'v-model': 'someFilter', value: 'man', },
-        { label: 'For woman', 'v-model': 'someFilter', value: 'woman', },
-        { label: 'For little', 'v-model': 'someFilter', value: 'child', }
-    ]
 
-    let allA = ref(false);
-    let allB = ref(false);
+    let whoAll = ref(false);
+    let dermAll = ref(false);
 
-    watch (who, async (cur, old) => {
-        console.log(who)
+    let derm = computed(() => {
+        return filters.derm.length ? filters.derm : dermFull
+    });
+    let brands = computed(() => {
+        return filters.brands.length ? filters.brands : brandsFull
+    });
+    let who = computed(() => {
+        return filters.who.length ? filters.who : whoFull
+    });
+    watch(filters, () => {
         fetchApi().then(data => console.log(data));
-    })
-    watch (dermTypeFilter, async (cur, old) => {
-        fetchApi().then(data => console.log(data));
-    })
-    watch (brands, async (cur, old) => {
-        fetchApi().then(data => console.log(data));
-    })
+    });
+
     const fetchApi = async () => {
-        return useFetch(`http://127.0.0.1:8000/api/products/?d=${dermTypeFilter.value.length ? dermTypeFilter.value : dermFull}&b=${brands.value.length ? brands.value : brandsFull}&w=${who.value.length ? who.value : whoFull}`, {
+        return useFetch(`http://127.0.0.1:8000/api/products/?d=${derm.value}&b=${brands.value}&w=${who.value}`, {
             onResponse ({ request, options, response}) {
                 return response._data
             },
         })
     }
-    const selectAlla = () => {
-        allA.value = true;
-    }
-    const selectAllb = () => {
-        allB.value = true;
-    }
+    // const arrOfInputs = [
+    //     { label: 'Для всех типов', },
+    //     { label: 'Для сухой', value: 'dry', model: customInput,},
+    //     { label: 'Для жирной', value: 'fat', model: customInput,},
+    //     { label: 'Для зрелой', value: 'old', model: customInput,},
+    //     { label: 'Для чувствительной', value: 'sens', model: customInput,},
+    //     { label: 'Для комбинированной', value: 'comb', model: customInput,},
+    // ];
 </script>
 <style scoped>
     .main {

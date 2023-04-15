@@ -1,12 +1,27 @@
 <template>
     <label>
-        <input type="checkbox" :value="value" v-model="checked">{{ label }}
+        <input type="checkbox" :value="inputValue" @input="$emit('update:inputValue', $event.target.value)">{{ label }}
     </label>
 </template>
 <script setup>
     import { ref } from 'vue'
-    const checked = ref([]);
-    let props = defineProps(['label', 'value']);
+    defineProps(['label', 'inputValue',]);
+    defineEmits(['update:inputValue']);
 
-    console.log(props);
 </script>
+<style scoped>
+    label {
+        margin-bottom: 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+    label input[type='checkbox'] {
+        margin-right: 10px;
+        position: relative;
+        width: 20px;
+        height: 20px;
+        accent-color: var(--color-accent);
+    } 
+</style>
