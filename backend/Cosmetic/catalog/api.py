@@ -13,14 +13,13 @@ class CreamsAPiView(APIView):
     def get(self, request):
         
         filter_type_of_derm, filter_brand, filter_cream_for = get_filters_from_request(request)
-        print(filter_brand, filter_type_of_derm, filter_cream_for)
 
         creams = Creams.objects.filter(
             brand__in=filter_brand,
             type_of_derm__in=filter_type_of_derm,
             cream_for__in=filter_cream_for,
         )
-        print(creams)
+        
         serializer = CreamsSerializer(creams, many=True)
 
 

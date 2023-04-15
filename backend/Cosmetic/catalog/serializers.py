@@ -8,4 +8,4 @@ class CreamsSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Creams
-        fields = ['brand', 'title_of_product', 'type_of_derm', 'price']
+        fields = ['brand', 'title_of_product', 'brief_info_about_product', 'description', 'price']
