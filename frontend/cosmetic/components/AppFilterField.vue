@@ -9,7 +9,7 @@
 
 
 <script setup>
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
     let status = ref(false);
     const changeOptionsVisible = () => {
         status.value = !status.value
