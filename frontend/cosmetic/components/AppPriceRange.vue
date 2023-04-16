@@ -1,39 +1,38 @@
 <template>
         <div class="price-range">
-            <p>{{ minValue }} - {{ maxValue }}</p>
-            <input type="range" min="350" max="5000" step="50" v-model="minValue">
-            <input type="range" min="350" max="5000" step="50" v-model="maxValue">
+            <p class="display-range">{{ priceRange.minValue }} - {{ priceRange.maxValue }}</p>
+            <input type="range" min="350" max="5000" step="50" v-model="priceRange.minValue">
+            <input type="range" min="350" max="5000" step="50" v-model="priceRange.maxValue">
             <!-- @change="displayMaxValue"  @change="displayMinValue" -->
         </div>
 </template>
 <script setup>
-    import { ref, watch } from 'vue'
-    const minValue = ref('');
-    const maxValue = ref('')
+    import { ref, watch, reactive } from 'vue'
+    const priceRange = reactive({
+        minValue: '350', maxValue: '3750',
+    })
+    watch(priceRange, () => {
+        if (parseInt(priceRange.minValue) < parseInt(priceRange.maxValue)) return
+        let tmp = priceRange.minValue;
+        priceRange.minValue = priceRange.maxValue;
+        priceRange.maxValue = tmp;
+    })
 
-    // let min = ref(100);
-    // let max = ref(250);
-    // const validatePrice = (low, high) => {
-    //     if (low > high) {
-    //         min.value = high;
-    //         max.value = low;
-    //         return
-    //     }
-    //     min.value = low;
-    //     max.value = high;
-    // }
-    // const displayMinValue = (e) => {
-    //     let low = parseInt(e.target.value);
-    //     let high = parseInt(e.target.nextSibling.value);
-    //     console.log(low, high);
-    //     validatePrice(low, high);
-    // }
-    // const displayMaxValue = (e) => {
-    //     let low = parseInt(e.target.previousSibling.value);
-    //     let high = parseInt(e.target.value);
-    //     console.log(low, high);
-    //     validatePrice(low, high);
-    // }
+        // const minValue = ref('350');
+    // const maxValue = ref('3750');
+    // watch(minValue, () => {
+    //     if (parseInt(minValue.value) < parseInt(maxValue.value)) return
+    //     let tmp = minValue.value;
+    //     minValue.value = maxValue.value;
+    //     maxValue.value = tmp;
+    // })
+    // watch(maxValue, () => {
+    //     if (parseInt(minValue.value) < parseInt(maxValue.value)) return
+    //     let tmp = minValue.value;
+    //     minValue.value = maxValue.value;
+    //     maxValue.value = tmp;
+    // })
+
 </script>
 <style scoped>
     .price-range {
@@ -84,7 +83,7 @@
         background: var(--text-opacity);
         border: none;
     }
-    p {
+    .display-range {
         text-align: center;
         font-size: 18px;
         margin-bottom: 10px;

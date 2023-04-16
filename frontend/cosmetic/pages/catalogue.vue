@@ -9,7 +9,12 @@
                         <AppFilterField>
                             <template v-slot:filter-name>Цена</template>
                             <template v-slot:options>
-                                <AppPriceRange></AppPriceRange>
+                                <!-- <AppPriceRange></AppPriceRange> -->
+                                <div class="price-range">
+                                    <p class="display-range">{{ filters.minValue }} - {{ filters.maxValue }}</p>
+                                    <input type="range" min="350" max="5000" step="50" :value="filters.minValue" @change="bindMinValue">
+                                    <input type="range" min="350" max="5000" step="50" :value="filters.maxValue" @change="bindMaxValue">
+                                </div>
                             </template>
                         </AppFilterField>
                         <AppFilterField>
@@ -114,13 +119,14 @@
     </main>
 </template>
 <script setup>
-    import { ref, watch, reactive, computed } from 'vue'
+    import { ref, watch, reactive, computed, onMounted } from 'vue'
 
-    const filters = reactive({ derm: [], brands: [], who: [], });
+    const filters = reactive({ derm: [], brands: [], who: [], minValue: '350', maxValue: '3750',});
     const fullFilters = {
         who: [ "child", "man", "woman" ],
         brands: [ "Levrana", "Chocolatte", "Cafe_Mimi", "ECOLAB" ],
         derm: [ "dry", "fat", "old", "sens", "comb" ],
+
     }
 
     let derm = computed(() => {
@@ -136,15 +142,20 @@
     let cards = ref([]);
 
     watch(filters, async () => {
+        if (parseInt(filters.minValue) > parseInt(filters.maxValue)) {
+            let tmp = filters.minValue;
+            filters.minValue = filters.maxValue;
+            filters.maxValue = tmp;
+        }
+        const urlToCards = `http://127.0.0.1:8000/api/products/?d=${derm.value}&b=${brands.value}&w=${who.value}&p=${[filters.minValue, filters.maxValue]}`;
         cards.value.length = 0;
-        let response = await fetchApi();
+        let response = await fetchApi(urlToCards);
         response = response.data.value.data;
-        // .then(data => console.log(data.data.value.data));
         cards.value.push(...response);
     });
 
-    const fetchApi = async () => {
-        return useFetch(`http://127.0.0.1:8000/api/products/?d=${derm.value}&b=${brands.value}&w=${who.value}`, {
+    const fetchApi = async (url) => {
+        return useFetch(url, {
             onResponse ({ request, options, response}) {
                 return response._data
             },
@@ -158,6 +169,20 @@
         }
         filters[filter].length = 0;
     }
+    onMounted(async () => {
+        setTimeout(async () => {
+            const urlToCards = `http://127.0.0.1:8000/api/products/?d=${fullFilters.derm}&b=${fullFilters.brands}&w=${fullFilters.who}`;
+            let response = await fetchApi(urlToCards);
+            response = response.data.value.data;
+            cards.value.push(...response);
+        }, 1000);
+    })
+    const bindMinValue = (event) => {
+        filters.minValue = event.target.value;
+    }
+    const bindMaxValue = (event) => {
+        filters.maxValue = event.target.value;
+    }
     // const arrOfInputs = [
     //     { label: 'Для всех типов', },
     //     { label: 'Для сухой', value: 'dry', model: customInput,},
@@ -166,6 +191,9 @@
     //     { label: 'Для чувствительной', value: 'sens', model: customInput,},
     //     { label: 'Для комбинированной', value: 'comb', model: customInput,},
     // ];
+    // const priceRange = reactive({
+    //     minValue: '350', maxValue: '3750',
+    // })
 </script>
 <style scoped>
     .main {
@@ -249,6 +277,59 @@
     form label:last-child {
         margin-bottom: 20px;
     }
+    .price-range {
+        width: 100%;
+        position: relative;
+        margin: 22px 0 40px;
+    }
+    input[type='range'] {
+        width: 100%;
+        -webkit-appearance: none;
+        -moz-appearance:none;
+        background: transparent; 
+        position: absolute;
+        left: 0;
+    }
+    input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance:none;
+        height: 14px;
+        width: 14px;
+        border-radius: 0;
+        background: var(--color-accent);
+        cursor: pointer;
+        margin-top: -6px;
+        position: relative;
+        z-index: 1;
+    }
+    input[type='range']::-moz-range-thumb {
+        -moz-appearance:none;
+        height: 14px;
+        width: 14px;
+        background: var(--color-accent);
+        cursor: pointer;
+        border-radius: 0;
+        margin-top: -6px;
+        position: relative;
+        z-index: 1;
+        border: none;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 2px;
+        background: var(--text-opacity);
+        border: none;
+    }
+    input[type=range]::-moz-range-track {
+        width: 100%;
+        height: 2px;
+        background: var(--text-opacity);
+        border: none;
+    }
+    .display-range {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
     @media screen and (max-width: 1250px) {
         .main-aside{
             flex-shrink: 1;
@@ -277,6 +358,10 @@
         .main-category {
             margin: 0 0 25px;
         }
+        .price-range {
+            width: 70%;
+            margin: 22px auto 50px;
+        }
     }
     @media screen and (max-width: 768px) {
         .card-grid {
@@ -291,6 +376,14 @@
         }
         .card-grid {
             grid-gap: 10px;
+        }
+        .main-header {
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+        .main-product {
+            margin-right: 25px;
+            
         }
 
     }

@@ -2,7 +2,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-inner">
-                <div class="footer-up" v-if="flag">
+                <div class="footer-up" v-if="isMediaQuery">
                     <div class="footer-col">
                         <img src="/img/LogoWhite.svg" alt="Logo" class="logo">
                         <p>г. Воронеж, ул. Катукова, д. 37</p>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="footer-up" v-else>
+                <div class="footer-up" v-if="!isMediaQuery">
                     <div>
                         <AppFilterField>
                             <template v-slot:filter-name>Каталог</template>
@@ -99,12 +99,11 @@
 
     const currentYear = new Date().getFullYear();
 
-    const flag = ref(false);
+    const isMediaQuery = ref(true);
     if (process.client) {
         const mediaQuery = window.matchMedia('screen and (max-width: 800px)');
         const hideFooterCol = (event) => {
-            flag.value = !event.matches;
-            console.log(flag.value);
+            isMediaQuery.value = !event.matches;
         }
         mediaQuery.addEventListener('change', hideFooterCol);
         hideFooterCol(mediaQuery);
