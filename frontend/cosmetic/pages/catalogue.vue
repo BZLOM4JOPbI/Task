@@ -134,9 +134,7 @@
     });
 
     let cards = ref([]);
-    watch(cards.value, () => {
-        console.log(cards.value);
-    })
+
     watch(filters, async () => {
         cards.value.length = 0;
         let response = await fetchApi();
@@ -225,7 +223,8 @@
     }
     .card-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        /* grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); */
+        grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 30px;
         justify-content: center;
     }
@@ -267,7 +266,7 @@
         }
         .main-aside {
             width: 90%;
-            margin: 0 auto;
+            margin: 0 auto 20px;
         }
         .main {
             padding: 40px 0;
@@ -275,13 +274,24 @@
         form {
             padding-left: 25px;
         }
+        .main-category {
+            margin: 0 0 25px;
+        }
     }
+    @media screen and (max-width: 768px) {
+        .card-grid {
+            /* grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); */
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
     @media screen and (max-width: 492px) {
         .main-aside {
             width: 100%;
         }
         .card-grid {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-gap: 10px;
         }
+
     }
 </style>

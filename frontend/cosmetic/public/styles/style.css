@@ -28,6 +28,7 @@ body, html, .wrap {
 .wrap {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 :root {
     --text-common:#150001;
@@ -46,4 +47,9 @@ a {
 }
 img, div {
     display: block;
+}
+@media screen and (max-width: 500px) {
+    .container {
+        padding: 0 10px;
+    }
 }
