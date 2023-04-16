@@ -191,9 +191,7 @@
     //     { label: 'Для чувствительной', value: 'sens', model: customInput,},
     //     { label: 'Для комбинированной', value: 'comb', model: customInput,},
     // ];
-    // const priceRange = reactive({
-    //     minValue: '350', maxValue: '3750',
-    // })
+
 </script>
 <style scoped>
     .main {
