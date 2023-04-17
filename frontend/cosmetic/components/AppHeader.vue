@@ -4,7 +4,7 @@
             <div class="header-inner">
                 <div class="header-links">
                     <a href=""><img src="/img/Logo.svg" alt="Logo" class="logo"></a>
-                    <div v-if="isMediaQuery">
+                    <div class="hide">
                         <a href="">Каталог</a>
                         <a href="">Бренды</a>
                         <a href="">Акции</a>
@@ -12,7 +12,7 @@
                         <a href="">Контакты</a>
                     </div>
                 </div>
-                <div class="header-menu" v-if="isMediaQuery">
+                <div class="header-menu hide">
                     <a href=""><img src="/img/icons/search.svg" alt=""></a>
                     <a href=""><img src="/img/icons/account.svg" alt=""></a>
                     <a href=""><img src="/img/icons/cart.svg" alt=""></a>
@@ -117,7 +117,7 @@
     }
     .flex-col {
         padding: 15px 0 20px;
-        gap: 15px;
+        gap: 20px;
     }
     .flex-col a {
         text-align: center;
@@ -135,6 +135,11 @@
     }
     @media screen and (min-width: 800px) {
         nav {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 800px) {
+        .hide {
             display: none;
         }
     }

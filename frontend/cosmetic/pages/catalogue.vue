@@ -191,7 +191,6 @@
     //     { label: 'Для чувствительной', value: 'sens', model: customInput,},
     //     { label: 'Для комбинированной', value: 'comb', model: customInput,},
     // ];
-
 </script>
 <style scoped>
     .main {
