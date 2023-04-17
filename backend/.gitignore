@@ -1,7 +1,7 @@
 venv
-.env
-.env.docker
-
+# .env
+# .env.docker
+# Для ревью кода 
 
 
 # Django #
