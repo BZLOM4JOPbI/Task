@@ -22,7 +22,6 @@ class CreamsAPiView(APIView):
         
         serializer = CreamsSerializer(creams, many=True)
 
-
         return Response({'data': serializer.data})
 
     def post(self, request):
