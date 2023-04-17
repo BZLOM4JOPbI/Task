@@ -40,7 +40,7 @@
                 </div>
                 <div class="footer-up" v-if="!isMediaQuery">
                     <div>
-                        <AppFilterField>
+                        <AppHiddenField>
                             <template v-slot:filter-name>Каталог</template>
                             <template v-slot:options>
                                 <a class='footer-link' href="">Женские ароматы</a>
@@ -48,10 +48,10 @@
                                 <a class='footer-link' href="">Акции</a>
                                 <a class='footer-link' href="">Бренды</a>
                             </template>
-                        </AppFilterField>
+                        </AppHiddenField>
                     </div>
                     <div>
-                        <AppFilterField>
+                        <AppHiddenField>
                             <template v-slot:filter-name>Бренды</template>
                             <template v-slot:options>
                                 <a class='footer-link' href="">Levrana</a>
@@ -59,20 +59,20 @@
                                 <a class='footer-link' href="">ECOLAB</a>
                                 <a class='footer-link' href="">Cafe Mimi</a>
                             </template>
-                    </AppFilterField>
+                        </AppHiddenField>
                     </div>
                     <div>
-                        <AppFilterField>
+                        <AppHiddenField>
                             <template v-slot:filter-name>О компании</template>
                             <template v-slot:options>
                                 <a class='footer-link' href="">Информация</a>
                                 <a class='footer-link' href="">Контакты</a>
                                 <a class='footer-link' href="">Оптовое сотрудничество</a>
                             </template>
-                    </AppFilterField>
+                        </AppHiddenField>
                     </div>
                     <div>
-                        <AppFilterField>
+                        <AppHiddenField>
                             <template v-slot:filter-name>Доставка и оплата</template>
                             <template v-slot:options>                        
                                 <a href="" class="phone">8 (999) 770 38 93</a>
@@ -83,7 +83,7 @@
                                     <a class='social' href=""><img src="/img/socials/whatsup.svg" alt=""></a>
                                 </div>
                             </template>
-                    </AppFilterField>
+                        </AppHiddenField>
                     </div>
                     <p><img src="/img/LogoWhite.svg" alt="Logo" class="logo">г. Воронеж, ул. Катукова, д. 37</p>
                 </div>

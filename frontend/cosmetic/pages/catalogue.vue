@@ -6,18 +6,17 @@
                     <div class="main-category"><a href="">Главная</a><a href="">Каталог</a><a href="">Кремы</a></div>
                     <div class="main-filters">
                         <AppFilterCatalogue></AppFilterCatalogue>
-                        <AppFilterField>
+                        <AppHiddenField>
                             <template v-slot:filter-name>Цена</template>
                             <template v-slot:options>
-                                <!-- <AppPriceRange></AppPriceRange> -->
                                 <div class="price-range">
                                     <p class="display-range">{{ filters.minValue }} - {{ filters.maxValue }}</p>
-                                    <input type="range" min="350" max="5000" step="50" :value="filters.minValue" @change="bindMinValue">
-                                    <input type="range" min="350" max="5000" step="50" :value="filters.maxValue" @change="bindMaxValue">
+                                    <input class='filter-range-left' type="range" min="350" max="5000" step="50" :value="filters.minValue" @change="bindMinValue">
+                                    <input class='filter-range-right' type="range" min="350" max="5000" step="50" :value="filters.maxValue" @change="bindMaxValue">
                                 </div>
                             </template>
-                        </AppFilterField>
-                        <AppFilterField>
+                        </AppHiddenField>
+                        <AppHiddenField>
                             <template v-slot:filter-name>Бренды</template>
                             <template v-slot:options>
                                 <form>
@@ -35,8 +34,8 @@
                                     </label>
                                 </form>
                             </template>
-                        </AppFilterField>
-                        <AppFilterField>
+                        </AppHiddenField>
+                        <AppHiddenField>
                             <template v-slot:filter-name>Для кого</template>
                             <template v-slot:options>
                                 <form>
@@ -54,8 +53,8 @@
                                     </label>
                                 </form>
                             </template>
-                        </AppFilterField>
-                        <AppFilterField>
+                        </AppHiddenField>
+                        <AppHiddenField>
                             <template v-slot:filter-name>Тип кожи</template>
                             <template v-slot:options>
                                 <form>
@@ -79,39 +78,36 @@
                                     </label>
                                 </form>
                             </template>
-                        </AppFilterField>
-                        <AppFilterField>
+                        </AppHiddenField>
+                        <AppHiddenField>
                             <template v-slot:filter-name>Средство для рук</template>
-                            <!-- <template v-slot:options>
-                                <AppFilterOption :model="customInput">
-                                    <AppFilterInput
-                                        v-for="input in arrOfInputs"
-                                        :inputValue="input.value"
-                                        :label="input.label"
-                                        v-model="input.model"
-                                    ></AppFilterInput>
-                                </AppFilterOption>
-                            </template> -->
-                        </AppFilterField>
-                        <AppFilterField>
+                        </AppHiddenField>
+                        <AppHiddenField>
                             <template v-slot:filter-name>Средство для тела</template>
-                        </AppFilterField>
-                        <!-- <AppCustomInput
-                            v-model="customInput"
-                            @update:modelCheck =
-                        ></AppCustomInput> -->
+                        </AppHiddenField>
                     </div>
                 </div>
                 <div class="main-list-cards">
                     <div class="main-header">
                         <h3 class="main-product">Кремы</h3>
-                        <AppOrderCatalogue></AppOrderCatalogue>
+                        <AppHiddenPopup>
+                            <template v-slot:filter-name>Упорядочить</template>
+                            <template v-slot:options>
+                                <div class="main-field-sort">
+                                    <p>новинки</p>
+                                    <p>скидки</p>
+                                    <p @click='reverseSortByPrice'>по убыванию цены</p>
+                                    <p @click='sortByPrice'>по возрастанию цены</p>
+                                </div>
+                            </template>
+                        </AppHiddenPopup>
                     </div>
                     <div class="card-grid">
                         <AppCard v-for="card in cards"
                             :title="card.title_of_product"
                             :desc="card.brief_info_about_product"
-                            :price="card.price"></AppCard>
+                            :price="card.price">
+                        </AppCard>
                     </div>
                 </div>
             </div>
@@ -129,13 +125,13 @@
 
     }
 
-    let derm = computed(() => {
+    let dermSendParam = computed(() => {
         return filters.derm.length ? filters.derm : fullFilters.derm
     });
-    let brands = computed(() => {
+    let brandsSendParam = computed(() => {
         return filters.brands.length ? filters.brands : fullFilters.brands
     });
-    let who = computed(() => {
+    let whoSendParam = computed(() => {
         return filters.who.length ? filters.who : fullFilters.who
     });
 
@@ -147,7 +143,7 @@
             filters.minValue = filters.maxValue;
             filters.maxValue = tmp;
         }
-        const urlToCards = `http://127.0.0.1:8000/api/products/?d=${derm.value}&b=${brands.value}&w=${who.value}&p=${[filters.minValue, filters.maxValue]}`;
+        const urlToCards = `http://127.0.0.1:8000/api/products/?d=${dermSendParam.value}&b=${brandsSendParam.value}&w=${whoSendParam.value}&p=${[filters.minValue, filters.maxValue]}`;
         cards.value.length = 0;
         let response = await fetchApi(urlToCards);
         response = response.data.value.data;
@@ -183,14 +179,13 @@
     const bindMaxValue = (event) => {
         filters.maxValue = event.target.value;
     }
-    // const arrOfInputs = [
-    //     { label: 'Для всех типов', },
-    //     { label: 'Для сухой', value: 'dry', model: customInput,},
-    //     { label: 'Для жирной', value: 'fat', model: customInput,},
-    //     { label: 'Для зрелой', value: 'old', model: customInput,},
-    //     { label: 'Для чувствительной', value: 'sens', model: customInput,},
-    //     { label: 'Для комбинированной', value: 'comb', model: customInput,},
-    // ];
+
+    // const sortedCards = computed(() => {
+    //     return cards.value.sort((a, b) => parseInt(a.price) - parseInt(a.price));
+    // })
+    // const sortByPrice = (isReverse) => isReverse ? sortByPrice : sortByPrice.reverse();
+    const sortByPrice = () => cards.value = [...cards.value.sort((a, b) => a.price > b.price)];
+    const reverseSortByPrice = () => cards.value = [...cards.value.sort((a, b) => a.price > b.price).reverse()];
 </script>
 <style scoped>
     .main {
@@ -286,9 +281,11 @@
         background: transparent; 
         position: absolute;
         left: 0;
+        appearance: none;
     }
     input[type='range']::-webkit-slider-thumb {
         -webkit-appearance:none;
+        appearance: none;
         height: 14px;
         width: 14px;
         border-radius: 0;
@@ -298,16 +295,19 @@
         position: relative;
         z-index: 1;
     }
+
     input[type='range']::-moz-range-thumb {
-        -moz-appearance:none;
+        -moz-appearance: none;
+        appearance: none;
+        pointer-events: all;
         height: 14px;
         width: 14px;
         background: var(--color-accent);
         cursor: pointer;
         border-radius: 0;
-        margin-top: -6px;
-        position: relative;
-        z-index: 1;
+        margin-top: -6px; 
+        position: relative; 
+        z-index: 1; 
         border: none;
     }
     input[type=range]::-webkit-slider-runnable-track {
@@ -326,6 +326,20 @@
         text-align: center;
         font-size: 18px;
         margin-bottom: 10px;
+    }
+    .main-field-sort {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        align-items: flex-end;
+    }
+    .main-field-sort p {
+        text-align: right;
+        width: max-content;
+        margin-bottom: 10px;
+    }
+    .main-field-sort p:last-child {
+        margin-bottom: 0px;
     }
     @media screen and (max-width: 1250px) {
         .main-aside{
