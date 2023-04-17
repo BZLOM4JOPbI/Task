@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <img class='card-img' src="/img/photo.png" alt="">
-        <h6 class="card-title">{{  title }}</h6>
+        <h6 class="card-title" :title="title">{{  title }}</h6>
         <p class="card-desc">{{ desc }}</p>
         <p class="card-price">{{ price }}&#x20bd;</p>
         <button class="add-to-cart"><img src="/img/icons/cart.svg" alt=""></button>
@@ -24,6 +24,8 @@
         line-height: 26px;
         font-weight: 500;
         color: var(--color-accent);
+        height: 52px;
+        overflow: hidden;
     }
     .card-img {
         max-width: 100%;
@@ -57,5 +59,15 @@
     .add-to-cart {
         padding: 8px 15px;
     }
+    }
+    @media screen and (max-width: 492px) {
+        .card-title {
+            font-size: 18px;
+            line-height: 22px;
+            height: 44px;
+        }
+        .card-desc {
+            font-size: 16px;
+        }
     }
 </style>

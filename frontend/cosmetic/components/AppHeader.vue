@@ -17,7 +17,7 @@
                     <a href=""><img src="/img/icons/account.svg" alt=""></a>
                     <a href=""><img src="/img/icons/cart.svg" alt=""></a>
                 </div>
-                <div v-if="!isMediaQuery" class="burger-btn" @click="isBurgerActive = !isBurgerActive">  
+                <div class="burger-btn" @click="isBurgerActive = !isBurgerActive">  
                     <span></span>
                     <span></span>
                     <span></span>
@@ -25,37 +25,39 @@
             </div>
         </div>
     </header>
-    <nav v-show="isBurgerActive">
-        <div class="container">
-            <div class="nav-inner">
-                <div class="flex-col">
-                    <a href="">Каталог</a>
-                    <a href="">Бренды</a>
-                    <a href="">Акции</a>
-                    <a href="">О компании</a>
-                    <a href="">Контакты</a>
-                </div>
-                <div class="burger-menu">
-                    <a href=""><img src="/img/icons/search.svg" alt=""></a>
-                    <a href=""><img src="/img/icons/account.svg" alt=""></a>
-                    <a href=""><img src="/img/icons/cart.svg" alt=""></a>
+    <transition name="fade">
+        <nav v-show="isBurgerActive">
+            <div class="container">
+                <div class="nav-inner">
+                    <div class="flex-col">
+                        <a href="">Каталог</a>
+                        <a href="">Бренды</a>
+                        <a href="">Акции</a>
+                        <a href="">О компании</a>
+                        <a href="">Контакты</a>
+                    </div>
+                    <div class="burger-menu">
+                        <a href=""><img src="/img/icons/search.svg" alt=""></a>
+                        <a href=""><img src="/img/icons/account.svg" alt=""></a>
+                        <a href=""><img src="/img/icons/cart.svg" alt=""></a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </transition>
 </template>
 <script setup>
-    import { ref } from 'vue';
+    // import { ref } from 'vue';
 
-    const isMediaQuery = ref(true);
-    if (process.client) {
-        const mediaQuery = window.matchMedia('screen and (max-width: 800px)');
-        const hideFooterCol = (event) => {
-            isMediaQuery.value = !event.matches;
-        }
-        mediaQuery.addEventListener('change', hideFooterCol);
-        hideFooterCol(mediaQuery);
-    }
+    // const isMediaQuery = ref(true);
+    // if (process.client) {
+    //     const mediaQuery = window.matchMedia('screen and (max-width: 800px)');
+    //     const hideFooterCol = (event) => {
+    //         isMediaQuery.value = !event.matches;
+    //     }
+    //     mediaQuery.addEventListener('change', hideFooterCol);
+    //     hideFooterCol(mediaQuery);
+    // }
 
     const isBurgerActive = ref(false);
 </script>
@@ -133,14 +135,25 @@
     .burger-menu a:last-child {
         margin-right: 0px;
     }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.2s ease;
+    }
+
+    .fade-enter-from, .fade-leave-to {
+        opacity: 0;
+    }
+
     @media screen and (min-width: 800px) {
-        nav {
+        nav, .burger-btn  {
             display: none;
         }
     }
     @media screen and (max-width: 800px) {
         .hide {
             display: none;
+        }
+        .burger-btn {
+            display: block;
         }
     }
 </style>
