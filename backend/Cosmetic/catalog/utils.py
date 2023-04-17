@@ -3,6 +3,7 @@ def get_filters_from_request(request):
     type_of_derm = request.query_params.get('d')
     brand = request.query_params.get('b')
     product_for_who = request.query_params.get('w')
+    price = request.query_params.get('p')
 
     filters_for_product = [type_of_derm, brand, product_for_who]
     
@@ -12,5 +13,12 @@ def get_filters_from_request(request):
             filters_for_product[index] = filters
         except (AttributeError, TypeError):
             filters_for_product[index] = []
-    
+
+    if price:
+        price = map(int, price.split(','))
+    else:
+        price = [0, 10000]
+
+    filters_for_product.append(price)
+
     return filters_for_product
