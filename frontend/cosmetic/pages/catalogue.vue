@@ -218,6 +218,7 @@
         // console.log(page, 'hello from parent');
         currentPage.value = page;
     };
+    
     const renderedCards = computed(() => {
         return cards.value.slice((currentPage.value - 1) * 9, currentPage.value * 9);
     });
