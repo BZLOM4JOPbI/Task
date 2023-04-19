@@ -1,9 +1,8 @@
 from django.urls import path
-from rest_framework import routers
 
-from catalog.api import *
+from catalog.api import CreamsAPiView
 
 
 urlpatterns = [
-    path('api/products/', CreamsAPiView.as_view())
+    path("api/products/", CreamsAPiView.as_view()),
 ]
