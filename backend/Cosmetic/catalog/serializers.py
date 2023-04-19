@@ -15,4 +15,6 @@ class CreamsSerializer(serializers.ModelSerializer):
             "price",
             'is_new',
             'sale',
+            'cream_for',
+            'type_of_derm',
         ]
