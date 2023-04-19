@@ -6,7 +6,7 @@ class Products(models.Model):
     brand = models.CharField("Бренд", max_length=50)
     title_of_product = models.CharField(
         "Название товара",
-        max_length=50,
+        max_length=100,
         blank=True,
     )
     short_description = models.CharField(
@@ -16,7 +16,7 @@ class Products(models.Model):
     )
     description = models.TextField("Описание", blank=True)
     price = models.PositiveIntegerField("Цена")
-    isHit = models.BooleanField("Хит", default=False)
+    is_new = models.BooleanField("Новинка", default=False)
     sale = models.PositiveIntegerField(
         "Скидка, %", 
         default=0, 

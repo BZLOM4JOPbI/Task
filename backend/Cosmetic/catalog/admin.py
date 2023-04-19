@@ -10,11 +10,11 @@ class ProductsAdmin(admin.ModelAdmin):
         "brand",
         "title_of_product",
         "short_description",
-        'isHit',
+        'is_new',
         "price",
         'sale',
     )
 
-    search_fields = ("id", "brand", "title_of_product", 'isHit')
+    search_fields = ("id", "brand", "title_of_product", 'is_new')
 
     list_filter = ("id", "price", 'sale')

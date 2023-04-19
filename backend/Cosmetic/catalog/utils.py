@@ -21,3 +21,12 @@ def get_filters_from_request(request):
     filters_for_product.append(price)
 
     return filters_for_product
+
+
+def get_product_from_excel_row(excel_row):
+    product_field = list()
+
+    for cell in excel_row:
+        product_field.append(cell.value)
+    
+    return product_field

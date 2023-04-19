@@ -4,5 +4,5 @@ from catalog.api import CreamsAPiView
 
 
 urlpatterns = [
-    path("api/products/", CreamsAPiView.as_view()),
+    path("products/", CreamsAPiView.as_view()),
 ]

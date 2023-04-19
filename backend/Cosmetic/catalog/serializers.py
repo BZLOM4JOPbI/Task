@@ -13,6 +13,6 @@ class CreamsSerializer(serializers.ModelSerializer):
             "short_description",
             "description",
             "price",
-            'isHit',
+            'is_new',
             'sale',
         ]
