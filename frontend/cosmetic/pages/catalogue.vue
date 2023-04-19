@@ -94,8 +94,8 @@
                             <template v-slot:filter-name>Упорядочить</template>
                             <template v-slot:options>
                                 <div class="main-field-sort">
-                                    <p>новинки</p>
-                                    <p>скидки</p>
+                                    <p @click='sortByIsHit'>новинки</p>
+                                    <p @click='sortBySale'>скидки</p>
                                     <p @click='reverseSortByPrice'>по убыванию цены</p>
                                     <p @click='sortByPrice'>по возрастанию цены</p>
                                 </div>
@@ -103,14 +103,18 @@
                         </AppHiddenPopup>
                     </div>
                     <div class="card-grid">
-                        <AppCard v-for="card in cards"
+                        <AppCard v-for="card in renderedCards"
                             :title="card.title_of_product"
                             :desc="card.brief_info_about_product"
                             :price="card.price">
                         </AppCard>
                     </div>
+                    <div class="main-pagination-wrap">
+                        <AppPagination @clicked="onChangePage"></AppPagination>
+                    </div>
                 </div>
             </div>
+            <AppSlider :cards="cardsToSlider"></AppSlider> 
         </div>
     </main>
 </template>
@@ -165,12 +169,16 @@
         }
         filters[filter].length = 0;
     }
+
+    const cardsToSlider = ref([]);
+
     onMounted(async () => {
         setTimeout(async () => {
-            const urlToCards = `http://127.0.0.1:8000/api/products/?d=${fullFilters.derm}&b=${fullFilters.brands}&w=${fullFilters.who}`;
+            const urlToCards = `http://127.0.0.1:8000/api/products/?d=${fullFilters.derm}&b=${fullFilters.brands}&w=${fullFilters.who}&p=${[filters.minValue, filters.maxValue]}`;
             let response = await fetchApi(urlToCards);
             response = response.data.value.data;
             cards.value.push(...response);
+            cardsToSlider.value.push(...response.slice(0 ,8));
         }, 1000);
     })
     const bindMinValue = (event) => {
@@ -184,8 +192,38 @@
     //     return cards.value.sort((a, b) => parseInt(a.price) - parseInt(a.price));
     // })
     // const sortByPrice = (isReverse) => isReverse ? sortByPrice : sortByPrice.reverse();
-    const sortByPrice = () => cards.value = [...cards.value.sort((a, b) => a.price > b.price)];
-    const reverseSortByPrice = () => cards.value = [...cards.value.sort((a, b) => a.price > b.price).reverse()];
+    const sortByPrice = () => {
+        const sortedArr = [...cards.value.sort((a, b) => a.price > b.price)];
+        cards.value.length = 0;
+        cards.value.push(...sortedArr);
+    };
+    const reverseSortByPrice = () => {
+        const sortedArr = [...cards.value.sort((a, b) => a.price > b.price)].reverse();
+        cards.value.length = 0;
+        cards.value.push(...sortedArr);
+    }
+    const sortBySale = () => {
+        const sortedArr = [...cards.value.sort((a, b) => a.sale > b.sale)];
+        cards.value.length = 0;
+        cards.value.push(...sortedArr);
+    };
+    const sortByIsHit = () => {
+        const sortedArr = [...cards.value.sort((a, b) => a.isHit > b.isHit)];
+        cards.value.length = 0;
+        cards.value.push(...sortedArr);
+    };
+
+    const currentPage = ref(1);
+    const onChangePage = (page) => {
+        // console.log(page, 'hello from parent');
+        currentPage.value = page;
+    };
+    const renderedCards = computed(() => {
+        return cards.value.slice((currentPage.value - 1) * 9, currentPage.value * 9);
+    });
+    watch(renderedCards, () => {
+        console.log(renderedCards);
+    })
 </script>
 <style scoped>
     .main {
@@ -247,6 +285,7 @@
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 30px;
         justify-content: center;
+        margin-bottom: 30px;
     }
     label {
         margin-bottom: 10px;
@@ -341,6 +380,10 @@
     .main-field-sort p:last-child {
         margin-bottom: 0px;
     }
+    .main-pagination-wrap {
+        width: fit-content;
+        margin-left: auto;
+    }
     @media screen and (max-width: 1250px) {
         .main-aside{
             flex-shrink: 1;
@@ -378,6 +421,9 @@
         .card-grid {
             /* grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); */
             grid-template-columns: 1fr 1fr;
+        }
+        .main-pagination-wrap {
+            margin: 0 auto;
         }
     }
 
