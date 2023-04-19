@@ -105,7 +105,7 @@
                     <div class="card-grid">
                         <AppCard v-for="card in renderedCards"
                             :title="card.title_of_product"
-                            :desc="card.brief_info_about_product"
+                            :desc="card.short_description"
                             :price="card.price">
                         </AppCard>
                     </div>
@@ -193,12 +193,20 @@
     // })
     // const sortByPrice = (isReverse) => isReverse ? sortByPrice : sortByPrice.reverse();
     const sortByPrice = () => {
-        const sortedArr = [...cards.value.sort((a, b) => a.price > b.price)];
+        const sortedArr = [...cards.value.sort((a, b) => {
+            // parseInt(a.price) > parseInt(b.price)
+            return a.price - b.price
+        })];
+        console.log(sortedArr);
         cards.value.length = 0;
         cards.value.push(...sortedArr);
+        console.log(cards.value);
     };
     const reverseSortByPrice = () => {
-        const sortedArr = [...cards.value.sort((a, b) => a.price > b.price)].reverse();
+        const sortedArr = [...cards.value.sort((a, b) => {
+            // parseInt(a.price) > parseInt(b.price)
+            return a.price - b.price
+        })].reverse();
         cards.value.length = 0;
         cards.value.push(...sortedArr);
     }
